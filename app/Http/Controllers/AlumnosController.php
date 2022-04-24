@@ -16,7 +16,7 @@ class AlumnosController extends Controller
     }
 
     public function createAlumno(){
-        return redirect()->back();
+        return "Create Alumno";
     }
 
     public function updateAlumno($id){
