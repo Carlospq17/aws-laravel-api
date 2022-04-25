@@ -8,12 +8,6 @@ use App\Models\Alumnos;
 class AlumnosController extends Controller
 {
     //
-    protected Alumnos $alumnos;
-
-    public function __construct(Alumnos $alumnos){
-        $this->alumnos = $alumnos;
-    }
-
     public function getAll(){
         return "Get All";
     }
@@ -22,15 +16,18 @@ class AlumnosController extends Controller
         return "Get Alumno ".$id;
     }
 
-    public function createAlumno(){
+    public function createAlumno(Request $request){
+        dd($request);
         return "Create Alumno";
     }
 
-    public function updateAlumno($id){
+    public function updateAlumno($id, Request $request){
+        dd($request);
         return "Update Alumno ".$id;
     }
 
     public function deleteAlumno($id){
+        dd($id);
         return "Delete Alumno ".$id;
     }
 }
