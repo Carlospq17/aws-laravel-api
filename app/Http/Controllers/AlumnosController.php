@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Alumnos;
 
 class AlumnosController extends Controller
 {
     //
+    protected Alumnos $alumnos;
+
+    public function __construct(Alumnos $alumnos){
+        $this->alumnos = $alumnos;
+    }
+
     public function getAll(){
         return "Get All";
     }
