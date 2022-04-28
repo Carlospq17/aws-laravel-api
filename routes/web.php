@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlumnosController;
+use App\Http\Controllers\ProfesoresController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,13 @@ Route::post('/alumnos', [AlumnosController::class, 'createAlumno']);
 Route::put('/alumnos/{id}', [AlumnosController::class, 'updateAlumno']);
 
 Route::delete('/alumnos/{id}', [AlumnosController::class, 'deleteAlumno']);
+
+Route::get('/profesores', [ProfesoresController::class, 'getAll']);
+
+Route::get('/profesores/{id}', [ProfesoresController::class, 'getProfesor']);
+
+Route::post('/profesores', [ProfesoresController::class, 'createProfesor']);
+
+Route::put('/profesores/{id}', [ProfesoresController::class, 'updateProfesor']);
+
+Route::delete('/profesores/{id}', [ProfesoresController::class, 'deleteProfesor']);
