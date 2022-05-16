@@ -25,6 +25,8 @@ Route::get('/alumnos/{id}', [AlumnosController::class, 'getAlumno']);
 
 Route::post('/alumnos', [AlumnosController::class, 'createAlumno']);
 
+Route::post('/alumnos/{id}/fotoPerfil', [AlumnosController::class, 'saveProfileImage']);
+
 Route::put('/alumnos/{id}', [AlumnosController::class, 'updateAlumno']);
 
 Route::delete('/alumnos/{id}', [AlumnosController::class, 'deleteAlumno']);

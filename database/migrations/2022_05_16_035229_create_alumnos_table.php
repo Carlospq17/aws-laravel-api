@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('apellidos');
             $table->string('matricula');
             $table->float('promedio', 8, 2);
+            $table->string('fotoPerfilUrl')->nullable($value = true);
             $table->timestamps();
         });
     }
