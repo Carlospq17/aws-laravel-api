@@ -9,7 +9,7 @@ class Profesores extends Model
 {
     use HasFactory;
 
-    private string $Id;
+    private int $id;
     private int $numeroEmpleado;
     private string $nombres;
     private string $apellidos;

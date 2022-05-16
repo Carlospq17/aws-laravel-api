@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alumnos extends Model
 {
-    private string $Id;
+    private int $id;
     private string $nombres;
     private string $apellidos;
-    private int $matricula;
+    private string $matricula;
     private float $promedio;
 
     public function __construct(){

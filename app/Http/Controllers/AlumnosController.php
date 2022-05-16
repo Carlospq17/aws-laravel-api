@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Uuid;
 use App\Models\Alumnos;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,29 +12,27 @@ class AlumnosController extends Controller
     public function __construct(){
     }
 
-    public function getAll(Request $request){
-        return response()->json($request->session()->all(), 200);
+    public function getAll(){
+        return response()->json(Alumnos::all(), 200);
     }
 
-    public function getAlumno(Request $request, $id){
-        if (!$request->session()->get("a".$id)){
-            return response()->json(['errores' => ['message' => 'No se encontro el id solicitado']], 404);
-        }
-        return response()->json($request->session()->get("a".$id), 200);
+    public function getAlumno($id){
+        $alumno = Alumnos::findOrFail($id);
+        return response()->json($alumno, 200);
     }
 
     public function createAlumno(Request $request){
         $validator = Validator::make(
             $request->input(),[
-                'id' => 'required|numeric',
+                'id' => 'required|numeric|unique:App\Models\Alumnos,id',
                 'nombres' => 'required|string',
                 'apellidos' => 'required|string',
-                'matricula' => 'required|numeric|gt:0',
+                'matricula' => 'required|string',
                 'promedio' => 'required|numeric|gt:0',
             ],[
                 'strings' => 'El campo :attribute debe ser un string.',
-                'required' => 'El campo :attribute es requerido.',
-                'numeric' => 'El campo :attribute debe ser numérico.'
+                'numeric' => 'El campo :attribute debe ser numérico.',
+                'required' => 'El campo :attribute es requerido.'
             ]);
 
         if (sizeof($validator->errors()->messages()) > 0) {
@@ -43,48 +40,55 @@ class AlumnosController extends Controller
         }
 
         $alumno = new Alumnos();
-        $alumno->Id =  "a".$request->input('id');
+        $alumno->id = $request->input('id');
         $alumno->nombres = $request->input('nombres');
         $alumno->apellidos = $request->input('apellidos');
         $alumno->matricula = $request->input('matricula');
         $alumno->promedio = $request->input('promedio');
-        $request->session()->put($alumno->Id,  $alumno);
+
+        $alumno->save();
         return response()->json($alumno, 201);
     }
 
     public function updateAlumno(Request $request, $id){
         $validator = Validator::make(
-            $request->input(),[
+            [
+                'id' => $id,
+                'nombres' => $request->input('nombres'),
+                'apellidos' => $request->input('apellidos'),
+                'matricula' => $request->input('matricula'),
+                'promedio' => $request->input('promedio'),
+            ]
+            ,[
+                'id' => 'exists:App\Models\Alumnos,id',
                 'nombres' => 'string',
                 'apellidos' => 'string',
-                'matricula' => 'numeric|gt:0',
+                'matricula' => 'string',
                 'promedio' => 'numeric|gt:0',
             ],[
+                'exists' => 'El :attribute no existe.',
                 'strings' => 'El campo :attribute debe ser un string.',
                 'numeric' => 'El campo :attribute debe ser numérico.'
             ]);
 
-        if (!$request->session()->get("a".$id)){
-            return response()->json(['errores' => ['message' => 'No se encontro el id solicitado']], 404);
-        }
-
         if (sizeof($validator->errors()->messages()) > 0) {
-            return response()->json(['errores' => $validator->errors()->messages()], 500);
+            return response()->json(['errores' => $validator->errors()->messages()], 400);
         }
 
-        $value = $request->session()->get("a".$id);
-        $value->nombres = $request->input('nombres');
-        $value->apellidos = $request->input('apellidos');
-        $value->matricula = $request->input('matricula');
-        $value->promedio = $request->input('promedio');
+        $alumno = Alumnos::findOrFail($id);
+        $alumno->nombres = $request->input('nombres');
+        $alumno->apellidos = $request->input('apellidos');
+        $alumno->matricula = $request->input('matricula');
+        $alumno->promedio = $request->input('promedio');
 
-        return response()->json($value, 200);
+        $alumno->save();
+
+        return response()->json($alumno, 200);
     }
 
-    public function deleteAlumno(Request $request, $id){
-        if (!$request->session()->get("a".$id)){
-            return response()->json(['errores' => ['message' => 'No se encontro el id solicitado']], 404);
-        }
-        return response()->json($request->session()->forget("a".$id), 200);
+    public function deleteAlumno($id){
+        $alumno = Alumnos::findOrFail($id);
+        $alumno->delete();
+        return response()->json(['message' => 'El elemento se ha eliminado con exito'], 200);
     }
 }
