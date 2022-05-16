@@ -69,7 +69,7 @@ class ProfesoresController extends Controller
             ]);
 
         if (sizeof($validator->errors()->messages()) > 0) {
-            return response()->json(['errores' => $validator->errors()->messages()], 500);
+            return response()->json(['errores' => $validator->errors()->messages()], 400);
         }
 
         $profesor = Profesores::findOrFail($id);

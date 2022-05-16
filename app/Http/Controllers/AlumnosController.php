@@ -27,7 +27,7 @@ class AlumnosController extends Controller
                 'id' => 'required|numeric|unique:App\Models\Alumnos,id',
                 'nombres' => 'required|string',
                 'apellidos' => 'required|string',
-                'matricula' => 'required|numeric|gt:0',
+                'matricula' => 'required|string',
                 'promedio' => 'required|numeric|gt:0',
             ],[
                 'strings' => 'El campo :attribute debe ser un string.',
@@ -63,7 +63,7 @@ class AlumnosController extends Controller
                 'id' => 'exists:App\Models\Alumnos,id',
                 'nombres' => 'string',
                 'apellidos' => 'string',
-                'matricula' => 'numeric|gt:0',
+                'matricula' => 'string',
                 'promedio' => 'numeric|gt:0',
             ],[
                 'exists' => 'El :attribute no existe.',

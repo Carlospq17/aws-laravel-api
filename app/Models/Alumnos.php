@@ -9,7 +9,7 @@ class Alumnos extends Model
     private int $id;
     private string $nombres;
     private string $apellidos;
-    private int $matricula;
+    private string $matricula;
     private float $promedio;
 
     public function __construct(){
