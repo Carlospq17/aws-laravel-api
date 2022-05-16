@@ -11,6 +11,7 @@ class Alumnos extends Model
     private string $apellidos;
     private string $matricula;
     private float $promedio;
+    private string $fotoPerfilUrl;
 
     public function __construct(){
     }

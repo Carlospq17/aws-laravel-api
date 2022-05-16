@@ -50,6 +50,28 @@ class AlumnosController extends Controller
         return response()->json($alumno, 201);
     }
 
+    public function saveProfileImage(Request $request, $id){
+        $validator = Validator::make(
+            [
+                'id' => $id,
+                'fotoPerfilUrl' => $request->fotoPerfilUrl
+            ]
+            ,[
+                'id' => 'exists:App\Models\Alumnos,id',
+                'fotoPerfilUrl' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+        if (sizeof($validator->errors()->messages()) > 0) {
+            return response()->json(['errores' => $validator->errors()->messages()], 400);
+        }
+
+        $alumno = Alumnos::findOrFail($id);
+        $alumno->fotoPerfilUrl = time().'.'.$request->fotoPerfilUrl->extension();
+        $request->fotoPerfilUrl->move(public_path('images'), $alumno->fotoPerfilUrl);
+        $alumno->save();
+        return response()->json($alumno, 200);
+    }
+
     public function updateAlumno(Request $request, $id){
         $validator = Validator::make(
             [
