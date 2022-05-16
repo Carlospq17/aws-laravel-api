@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('apellidos');
             $table->integer('matricula');
             $table->float('promedio', 8, 2);
+            $table->timestamps();
         });
     }
 
