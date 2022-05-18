@@ -24,7 +24,6 @@ class ProfesoresController extends Controller
     public function createProfesor(Request $request){
         $validator = Validator::make(
             $request->input(),[
-                'id' => 'required|numeric|unique:App\Models\Profesores,id',
                 'nombres' => 'required|string',
                 'apellidos' => 'required|string',
                 'numeroEmpleado' => 'required|numeric|gt:0',
@@ -39,7 +38,6 @@ class ProfesoresController extends Controller
             return response()->json(['errores' => $validator->errors()->messages()], 400);
         }
         $profesor = new Profesores();
-        $profesor->id = $request->input('id');
         $profesor->numeroEmpleado = $request->input('numeroEmpleado');
         $profesor->nombres = $request->input('nombres');
         $profesor->apellidos = $request->input('apellidos');

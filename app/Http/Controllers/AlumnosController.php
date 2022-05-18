@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Alumnos;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class AlumnosController extends Controller
 {
@@ -24,7 +25,6 @@ class AlumnosController extends Controller
     public function createAlumno(Request $request){
         $validator = Validator::make(
             $request->input(),[
-                'id' => 'required|numeric|unique:App\Models\Alumnos,id',
                 'nombres' => 'required|string',
                 'apellidos' => 'required|string',
                 'matricula' => 'required|string',
@@ -40,7 +40,6 @@ class AlumnosController extends Controller
         }
 
         $alumno = new Alumnos();
-        $alumno->id = $request->input('id');
         $alumno->nombres = $request->input('nombres');
         $alumno->apellidos = $request->input('apellidos');
         $alumno->matricula = $request->input('matricula');
